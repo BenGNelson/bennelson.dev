@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en" data-mode="pro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ben — operational</title>
+  <meta name="description" content="Ben Nelson builds and self-hosts software. Portfolio, homelab tour, and one flappy frog.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
+  <script src="/js/mode-boot.js"></script>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/friend.css">
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="site-head-inner">
+      <a class="brand" href="/">ben@bennelson.dev:~<span class="prompt-dollar">$</span></a>
+      <nav class="site-nav" aria-label="Site">
+        <a href="/" aria-current="page">dashboard</a>
+        <a href="/homelab/">homelab</a>
+        <a href="/froggy-bird/">froggy-bird</a>
+        <a href="/friends/">friends</a>
+        <a href="/contact/">contact</a>
+      </nav>
+      <button class="mode-toggle" type="button" aria-pressed="true" aria-label="Professional Mode: ON — activate to change">
+        <span class="mode-track"><span class="mode-knob"></span></span>
+        <span class="mode-label">PROFESSIONAL MODE:</span>
+        <span class="mode-state">ON</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ── ben, as a running service ─────────────────────────── -->
+    <section class="hero panel" data-boot="1987-07-05">
+      <div class="hero-statusline">
+        <span class="dot dot-ok"></span>
+        <strong>ben</strong>
+        <span class="hero-version">v—</span>
+        <span data-casual="— status: VIBING RESPONSIBLY" data-frog="— status: RIBBIT">— status: OPERATIONAL</span>
+      </div>
+      <h1>Ben Nelson</h1>
+      <p class="hero-tag"
+         data-casual="I put a server in my basement and now everything in my life has a dashboard. This is one of them."
+         data-frog="frog frog homelab frog frog server frog frog frog (self-hosted)">I
+         build and self-host software — a home platform, media automation, small games,
+         and the infrastructure underneath, run from hardware I can physically kick.</p>
+
+      <div class="gauges">
+        <div class="gauge">
+          <div class="g-label" data-frog="TIME SPENT BEING FROG">uptime</div>
+          <div class="g-value g-uptime">—</div>
+        </div>
+        <div class="gauge">
+          <div class="g-label" data-casual="meetings survived" data-frog="flies caught">coffee buffer</div>
+          <div class="g-value" data-casual="4 <small>this week</small>" data-frog="61,204">87%</div>
+        </div>
+        <div class="gauge">
+          <div class="g-label" data-casual="days since kernel panic" data-frog="croaks / min">services running</div>
+          <div class="g-value" data-casual="12" data-frog="44">14</div>
+        </div>
+        <div class="gauge">
+          <div class="g-label" data-casual="incidents (honest)" data-frog="herons evaded">incidents</div>
+          <div class="g-value" data-casual="1 — the drive enclosure again" data-frog="all of them so far">0<span class="g-unit"> self-reported</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── the services ─────────────────────────────────────── -->
+    <div class="services-head">
+      <h2 data-frog="the frog pond">running services</h2>
+      <span class="services-count">6 healthy · 0 degraded · restarts: rarely</span>
+    </div>
+
+    <div class="services">
+
+      <article class="svc panel">
+        <div class="svc-thumb" aria-hidden="true">▦</div>
+        <div class="svc-body">
+          <div class="svc-head">
+            <span class="dot dot-ok"></span>
+            <h3 class="svc-name" data-frog="House Brain 9000">home-hq</h3>
+            <span class="svc-tags">fastapi · react</span>
+          </div>
+          <p class="svc-desc"
+             data-casual="Mission control for the house. My mom said it looks professional, which is the highest bar there is."
+             data-frog="the house has a brain now. the brain has tabs.">Self-hosted
+             mission control: server health, media, containers, solar, weather, backups
+             and network — one dashboard for everything running at home.</p>
+          <div class="svc-links">
+            <a href="/hq-demo/">live simulation</a>
+            <a href="https://github.com/BenGNelson/home-hq">source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="svc panel">
+        <div class="svc-thumb" aria-hidden="true">🕹</div>
+        <div class="svc-body">
+          <div class="svc-head">
+            <span class="dot dot-ok"></span>
+            <h3 class="svc-name" data-frog="The Frogtorium">frog-game-station</h3>
+            <span class="svc-tags">fastapi · react</span>
+          </div>
+          <p class="svc-desc"
+             data-casual="A couch-friendly front end for the retro library, because scrolling a file share is not a vibe."
+             data-frog="games. for frogs. (and houseguests.)">Browser and launcher for
+             a retro game library — cover art, search, and one-click play for the
+             living room.</p>
+          <div class="svc-links">
+            <a href="https://github.com/BenGNelson/frog-game-station">source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="svc panel">
+        <div class="svc-thumb" aria-hidden="true">▤</div>
+        <div class="svc-body">
+          <div class="svc-head">
+            <span class="dot dot-ok"></span>
+            <h3 class="svc-name" data-frog="The Shiny Cardboard Vault">pocketbinder</h3>
+            <span class="svc-tags">fastapi · react</span>
+          </div>
+          <p class="svc-desc"
+             data-casual="Yes, it's for Pokémon cards. No, I will not be taking questions."
+             data-frog="gotta catalogue 'em all">Pokémon TCG collection tracker — sets,
+             holdings, values, and want-lists, fed by a scraping pipeline.</p>
+          <div class="svc-links">
+            <a href="https://github.com/BenGNelson/pocketbinder">source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="svc panel">
+        <div class="svc-thumb" aria-hidden="true">🎂</div>
+        <div class="svc-body">
+          <div class="svc-head">
+            <span class="dot dot-ok"></span>
+            <h3 class="svc-name" data-frog="The 'No' Machine">isitbensbirthday.com</h3>
+            <span class="svc-tags">static · vanilla js</span>
+          </div>
+          <p class="svc-desc"
+             data-casual="Eight fully-committed experiences answering a question nobody asked. There's an ARG in there. People have finished it."
+             data-frog="it is not. (unless?)">A joke site that answers one question with
+             eight entirely different websites, one per weekday — museum, enterprise
+             dashboard, government form, frog research institute, and worse.</p>
+          <div class="svc-links">
+            <a href="https://isitbensbirthday.com">live</a>
+            <a href="https://github.com/BenGNelson/isitbensbirthday.com">source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="svc panel">
+        <div class="svc-thumb" aria-hidden="true">🐸</div>
+        <div class="svc-body">
+          <div class="svc-head">
+            <span class="dot dot-ok"></span>
+            <h3 class="svc-name" data-frog="frog.">froggy-bird</h3>
+            <span class="svc-tags">canvas · zero deps</span>
+          </div>
+          <p class="svc-desc"
+             data-casual="Extracted from the birthday site so I'd only ever have to fix the heron once."
+             data-frog="THE MAIN EVENT">The Anuran Field Simulator: a flappy field-research
+             game, extracted into a standalone module vendored by two sites. Playable
+             right here.</p>
+          <div class="svc-links">
+            <a href="/froggy-bird/">play</a>
+            <a href="https://github.com/BenGNelson/froggy-bird">source</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="svc panel">
+        <div class="svc-thumb" aria-hidden="true">⌘</div>
+        <div class="svc-body">
+          <div class="svc-head">
+            <span class="dot dot-ok"></span>
+            <h3 class="svc-name" data-frog="vim crimes">dotfiles</h3>
+            <span class="svc-tags">shell · vim</span>
+          </div>
+          <p class="svc-desc"
+             data-casual="The config I re-earn every time I sit at a new machine for five minutes and get annoyed."
+             data-frog="hjkl hjkl hjkl hjkl">Shell, git and vim configuration plus a
+             bootstrap script — the part of every machine that makes it mine.</p>
+          <div class="svc-links">
+            <a href="https://github.com/BenGNelson/dotfiles">source</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- ── changelog: the bio ───────────────────────────────── -->
+    <section class="changelog panel">
+      <h2 data-frog="pond history">changelog — ben</h2>
+      <ul>
+        <li><span class="cl-ver">v39.1</span> <strong>Shipped bennelson.dev</strong> to the
+          edge; extracted froggy-bird into a reusable module with two consumer sites.
+          <span class="only-casual">Also survived four meetings.</span></li>
+        <li><span class="cl-ver">v39.0</span> Annual major release.
+          <strong>Breaking changes:</strong> none observed yet.
+          <span class="only-casual">Knees emit a deprecation warning on cold boot.</span></li>
+        <li><span class="cl-ver">v38.11</span> Completed the <strong>media automation
+          stack</strong> — request portal, indexers, quality profiles, subtitle sync, and
+          the discipline to not break it.</li>
+        <li><span class="cl-ver">v38.10</span> <strong>Security hardening pass</strong> on
+          the home server: key-only SSH, deny-by-default firewall that actually covers
+          Docker, nightly encrypted off-site backups, and a written
+          rebuild-from-nothing runbook.</li>
+        <li><span class="cl-ver">v38.6</span> Released <strong>frog-game-station
+          v1.0.0</strong>; began the great fleet-naming pivot to frogs.
+          <span class="only-casual">This was a bigger decision than most job changes.</span></li>
+        <li><span class="cl-ver">v38.x</span> Built <strong>home-hq</strong> module by
+          module until the house had more observability than most startups.</li>
+        <li><span class="cl-ver">v0.0.0</span> Initial commit.
+          <span class="only-frog">Already froggish.</span></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>© Ben Nelson · est. 1987 · est. 2003 · since 1991</div>
+    <div class="foot-line">no trackers · no cookies · one localStorage key, and it's the mode switch</div>
+    <div class="foot-line only-casual">the three founding dates are load-bearing</div>
+    <div class="foot-line only-frog">🐸 this website is certified frog 🐸</div>
+  </footer>
+
+  <script src="/js/mode.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/eggs.js"></script>
+</body>
+</html>

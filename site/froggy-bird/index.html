@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-mode="pro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>froggy-bird — ben</title>
+  <meta name="description" content="The Anuran Field Simulator. Flap. Log observation-hours. Beware the heron.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
+  <script src="/js/mode-boot.js"></script>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/friend.css">
+  <link rel="stylesheet" href="/vendor/froggy-bird/froggy-bird.css">
+  <style>
+    /* Map the module's theming hooks onto the site's tokens so the game
+       follows the mode switch like everything else. */
+    .game-panel {
+      --fb-border: var(--border);
+      --fb-accent: var(--ok);
+      --fb-accent-l: var(--accent);
+      --fb-text: var(--text);
+      --fb-muted: var(--muted);
+      --fb-muted-l: var(--faint);
+      --fb-chip-bg: var(--panel-2);
+      --fb-chip-on-bg: var(--panel);
+      --fb-ui-font: var(--font-mono);
+      padding: 24px 28px;
+      margin-top: 0;
+    }
+    .game-panel .fb-stage { margin-top: 0; }
+  </style>
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="site-head-inner">
+      <a class="brand" href="/">ben@bennelson.dev:~<span class="prompt-dollar">$</span></a>
+      <nav class="site-nav" aria-label="Site">
+        <a href="/">dashboard</a>
+        <a href="/homelab/">homelab</a>
+        <a href="/froggy-bird/" aria-current="page">froggy-bird</a>
+        <a href="/friends/">friends</a>
+        <a href="/contact/">contact</a>
+      </nav>
+      <button class="mode-toggle" type="button" aria-pressed="true" aria-label="Professional Mode: ON — activate to change">
+        <span class="mode-track"><span class="mode-knob"></span></span>
+        <span class="mode-label">PROFESSIONAL MODE:</span>
+        <span class="mode-state">ON</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1 class="page-title" data-frog="the main event">froggy-bird</h1>
+    <p class="page-sub">The <strong>Anuran Field Simulator</strong>. Pilot a specimen
+       along the wetland transect; every reed cleared logs one observation-hour.
+       Click, tap, or press Space to flap.
+       <span class="only-casual">The heron is not a bug.</span>
+       <span class="only-frog">fly, fool.</span></p>
+
+    <section class="panel game-panel">
+      <div id="game"></div>
+    </section>
+
+    <p class="page-sub" style="margin-top: 18px; font-size: 0.82rem;">
+      A standalone canvas module with zero dependencies, extracted from the frog
+      research institute over at
+      <a href="https://isitbensbirthday.com">isitbensbirthday.com</a> — one game,
+      one repo, two sites.
+      <a href="https://github.com/BenGNelson/froggy-bird">source</a>.
+    </p>
+  </main>
+
+  <footer class="site-foot">
+    <div>© Ben Nelson · est. 1987 · est. 2003 · since 1991</div>
+    <div class="foot-line">high scores are stored locally. the heron is stored in your heart</div>
+  </footer>
+
+  <script src="/js/mode.js"></script>
+  <script src="/js/eggs.js"></script>
+  <script src="/vendor/froggy-bird/froggy-bird.js"></script>
+  <script src="/js/froggy-page.js"></script>
+</body>
+</html>

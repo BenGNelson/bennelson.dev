@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en" data-mode="pro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>homelab — ben</title>
+  <meta name="description" content="The basement server, the RAID, the media pipeline, and the appliances that pretend to be a fleet.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
+  <script src="/js/mode-boot.js"></script>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/friend.css">
+  <style>
+    .lab-section { margin-bottom: 34px; }
+    .lab-section h2 {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+    .lab-section h2::before { content: "## "; color: var(--faint); }
+    .lab-section p { color: var(--muted); max-width: 72ch; margin-bottom: 10px; }
+    .lab-section p strong { color: var(--text); }
+
+    .topo {
+      width: 100%;
+      max-width: 760px;
+      display: block;
+      margin: 14px 0 6px;
+      font-family: var(--font-mono);
+    }
+    .topo .t-box   { fill: var(--panel); stroke: var(--border); rx: 6px; }
+    .topo .t-cloud { fill: var(--panel-2); stroke: var(--border); }
+    .topo .t-name  { fill: var(--text); font-size: 12px; font-weight: bold; }
+    .topo .t-sub   { fill: var(--muted); font-size: 9.5px; }
+    .topo .t-wire  { stroke: var(--faint); stroke-width: 1.2; fill: none; }
+    .topo .t-tunnel { stroke: var(--ok); stroke-width: 1.4; fill: none; stroke-dasharray: 5 4; }
+    .topo .t-lock  { fill: var(--ok); font-size: 10px; }
+    .topo .t-note  { fill: var(--faint); font-size: 9px; }
+
+    .fleet-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .fleet-table th, .fleet-table td {
+      text-align: left;
+      padding: 8px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .fleet-table th {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      border-top: none;
+    }
+    .fleet-table td:first-child { font-family: var(--font-mono); white-space: nowrap; }
+    .fleet-table td { color: var(--muted); }
+    .fleet-table td strong { color: var(--text); }
+
+    .war { border-left: 3px solid var(--warn); padding: 10px 16px; margin: 12px 0; }
+    .war h3 { font-size: 0.92rem; margin-bottom: 4px; }
+    .war p { font-size: 0.86rem; margin-bottom: 4px; }
+    .war .moral { font-family: var(--font-mono); font-size: 0.75rem; color: var(--warn); }
+  </style>
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="site-head-inner">
+      <a class="brand" href="/">ben@bennelson.dev:~<span class="prompt-dollar">$</span></a>
+      <nav class="site-nav" aria-label="Site">
+        <a href="/">dashboard</a>
+        <a href="/homelab/" aria-current="page">homelab</a>
+        <a href="/froggy-bird/">froggy-bird</a>
+        <a href="/friends/">friends</a>
+        <a href="/contact/">contact</a>
+      </nav>
+      <button class="mode-toggle" type="button" aria-pressed="true" aria-label="Professional Mode: ON — activate to change">
+        <span class="mode-track"><span class="mode-knob"></span></span>
+        <span class="mode-label">PROFESSIONAL MODE:</span>
+        <span class="mode-state">ON</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1 class="page-title" data-frog="the swamp, technically">the homelab</h1>
+    <p class="page-sub">Everything on the <a href="/">dashboard</a> runs on hardware in
+      my basement. This page is the tour — what it is, how it's wired, and what it has
+      taught me the hard way.</p>
+
+    <section class="lab-section">
+      <h2>the basement</h2>
+      <p>Self-hosting is the whole personality of this setup: if I use it every day, I
+        want it running on something I can physically reach. The result is a fleet of
+        machines with one production server at the center — a mid-tower in the basement
+        that runs the media server, the network storage, home automation, and every app
+        on the dashboard, all day, every day.</p>
+      <p><strong>A note on names:</strong> every machine below is renamed for
+        publication. The real hostnames stay home; the kitchen appliances are stand-ins.
+        <span class="only-casual">The real names are better. You'll never know.</span>
+        <span class="only-frog">the real names are frogs. wait. forget i said that.</span></p>
+
+      <svg class="topo" viewBox="0 0 760 320" role="img"
+           aria-label="Network topology: the internet reaches an edge network, which connects by an outbound tunnel to the basement server crockpot; the VPS minifridge sits off-site; laptops, phone and tablet reach home over an encrypted mesh; the desktop microwave stays LAN-only.">
+        <!-- internet -->
+        <ellipse class="t-cloud" cx="80" cy="60" rx="62" ry="30"/>
+        <text class="t-name" x="80" y="58" text-anchor="middle">internet</text>
+        <text class="t-sub" x="80" y="72" text-anchor="middle">(assume hostile)</text>
+
+        <!-- edge -->
+        <rect class="t-box" x="220" y="30" width="150" height="60" rx="6"/>
+        <text class="t-name" x="295" y="55" text-anchor="middle">edge network</text>
+        <text class="t-sub" x="295" y="70" text-anchor="middle">this site · auth · TLS</text>
+
+        <!-- crockpot -->
+        <rect class="t-box" x="520" y="20" width="190" height="86" rx="6"/>
+        <text class="t-name" x="615" y="44" text-anchor="middle">crockpot 🍲</text>
+        <text class="t-sub" x="615" y="60" text-anchor="middle">basement server · slow-cooks 24/7</text>
+        <text class="t-sub" x="615" y="74" text-anchor="middle">media · storage · automation</text>
+        <text class="t-sub" x="615" y="88" text-anchor="middle">7.5TB RAID5 + parity</text>
+
+        <!-- minifridge -->
+        <rect class="t-box" x="220" y="130" width="150" height="56" rx="6"/>
+        <text class="t-name" x="295" y="152" text-anchor="middle">minifridge 🧊</text>
+        <text class="t-sub" x="295" y="168" text-anchor="middle">off-site VPS · always cold, always on</text>
+
+        <!-- mesh devices -->
+        <rect class="t-box" x="520" y="150" width="190" height="112" rx="6"/>
+        <text class="t-name" x="615" y="172" text-anchor="middle">the household fleet</text>
+        <text class="t-sub" x="615" y="190" text-anchor="middle">airfryer 🍟 — the fast laptop</text>
+        <text class="t-sub" x="615" y="204" text-anchor="middle">toaster 🍞 — pops up anywhere</text>
+        <text class="t-sub" x="615" y="218" text-anchor="middle">microwave 📻 — desktop, never moves</text>
+        <text class="t-sub" x="615" y="232" text-anchor="middle">kettle ☕ — the phone, boils over</text>
+        <text class="t-sub" x="615" y="246" text-anchor="middle">eggtimer ⏲ — the tablet</text>
+
+        <!-- wires -->
+        <path class="t-wire" d="M142 60 L220 60"/>
+        <path class="t-tunnel" d="M370 60 L520 60"/>
+        <text class="t-lock" x="445" y="50" text-anchor="middle">⇠ outbound-only tunnel 🔒</text>
+        <text class="t-note" x="445" y="78" text-anchor="middle">nothing at home listens to the internet</text>
+        <path class="t-wire" d="M142 78 C170 110 190 140 220 154"/>
+        <path class="t-tunnel" d="M615 150 L615 106"/>
+        <text class="t-note" x="668" y="132">encrypted mesh</text>
+
+        <!-- backup arrow -->
+        <path class="t-wire" d="M370 170 C440 190 470 230 520 240" stroke-dasharray="2 4"/>
+        <text class="t-note" x="432" y="228" text-anchor="middle">nightly encrypted backups leave the house</text>
+      </svg>
+    </section>
+
+    <section class="lab-section">
+      <h2>the hardware</h2>
+      <table class="fleet-table">
+        <tr><th>unit</th><th>role</th><th>notes</th></tr>
+        <tr><td>crockpot 🍲</td>
+          <td><strong>production.</strong> 6-core, 16GB, Linux</td>
+          <td>Runs everything: the media server, ~20 containers, network shares, and the
+              home-automation brain. <span class="only-casual">Slow-cooks the whole
+              household's convenience on low, forever.</span></td></tr>
+        <tr><td>the array</td>
+          <td><strong>7.5TB usable RAID5</strong></td>
+          <td>Three drives, survives losing any one of them. Health-checked nightly;
+              the irreplaceable stuff also leaves the house every night, encrypted.</td></tr>
+        <tr><td>minifridge 🧊</td>
+          <td>public VPS</td>
+          <td>The only machine that lives on the open internet, deliberately outside the
+              home network with no way back in.</td></tr>
+        <tr><td>airfryer / toaster / microwave</td>
+          <td>dev machines</td>
+          <td>Where things get built before they're allowed in the basement.
+              <span class="only-frog">the airfryer is fast. suspiciously fast.</span></td></tr>
+      </table>
+    </section>
+
+    <section class="lab-section">
+      <h2>the media pipeline</h2>
+      <p>The flagship automation: a friend asks for a movie on the
+        <a href="/friends/">request portal</a>, and a pipeline picks it up — request
+        service → indexer manager → download automation → quality profiles → subtitle
+        sync → it appears in the library, usually before they've made popcorn. Every
+        piece runs in its own pinned container as a non-root user, none of them can
+        touch the Docker socket, and the one thing facing the internet sits behind an
+        auth wall at the edge <em>before</em> a single packet reaches the house.</p>
+      <p>The philosophy everywhere: <strong>deny by default, pin versions, automate the
+        boring, write down the weird.</strong>
+        <span class="only-casual">The "write down the weird" file is longer than some
+        novels.</span></p>
+    </section>
+
+    <section class="lab-section">
+      <h2>mission control</h2>
+      <p>All of it is observable from <strong>home-hq</strong>, the self-hosted
+        dashboard that started this whole thing — server vitals, container states,
+        media stats, solar, weather, backups, network. The real one never leaves the
+        house, but there's a <a href="/hq-demo/">full simulation with canned data</a>
+        you can click around.</p>
+    </section>
+
+    <section class="lab-section">
+      <h2>war stories</h2>
+      <p>Uptime is a lagging indicator of lessons learned.</p>
+
+      <div class="war panel">
+        <h3>The enclosure that cried drive-failure</h3>
+        <p>An external drive started throwing I/O errors that looked exactly like a
+          dying SSD. The drive was fine — the USB bridge chip in its enclosure was
+          hanging under sustained load. It now has a watchdog that detects the wedge
+          and power-cycles the bridge before anyone notices.</p>
+        <p class="moral">moral: blame the cheapest chip in the chain first.</p>
+      </div>
+
+      <div class="war panel">
+        <h3>The setting that read correctly and did nothing</h3>
+        <p>One torrent-client toggle, quietly off, meant every download silently ignored
+          its category's save path — so every import fell back from an instant hardlink
+          to a full copy, eating double disk. Every UI showed the category as correct
+          while it did precisely nothing.</p>
+        <p class="moral">moral: verify behavior, not settings screens.</p>
+      </div>
+
+      <div class="war panel">
+        <h3>The updater that needed updating</h3>
+        <p>The container that auto-updates my other containers crash-looped after a
+          Docker upgrade, because the project had been archived and its API client
+          aged out. Replaced with a maintained fork; the irony was noted in the
+          commit message.</p>
+        <p class="moral">moral: your maintenance tools need maintenance too.</p>
+      </div>
+
+      <div class="war panel">
+        <h3>The backup that looked automatic</h3>
+        <p>A disaster-recovery document sat inside a backed-up folder, which made it feel
+          self-updating. It was a manual copy. It had been stale for seven weeks before
+          anyone checked. The procedure now ends with "copy it across, by hand, now."</p>
+        <p class="moral">moral: a backup you haven't verified is a rumor.</p>
+      </div>
+    </section>
+
+    <section class="lab-section">
+      <h2>rules of the lab</h2>
+      <p>1. Nothing at home listens to the open internet; the edge does the listening.<br>
+         2. Every public name on this page is a pseudonym — numbers are fine, names are not.<br>
+         3. If it isn't backed up off-site, it doesn't exist.<br>
+         4. The alarm system is out of scope for automation. Permanently. On purpose.<br>
+         5. <span data-casual="If it breaks at 4am, it waits until coffee."
+                  data-frog="the frogs are real. everything else is negotiable.">Boring
+                  technology, pinned versions, written runbooks.</span></p>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div>© Ben Nelson · est. 1987 · est. 2003 · since 1991</div>
+    <div class="foot-line">everything you just read is renamed. the frogs, however, are real</div>
+  </footer>
+
+  <script src="/js/mode.js"></script>
+  <script src="/js/eggs.js"></script>
+</body>
+</html>

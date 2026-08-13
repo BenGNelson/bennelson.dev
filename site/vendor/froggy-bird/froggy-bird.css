@@ -1,0 +1,141 @@
+/* froggy-bird v1.0.0 — vendored, do not edit; run scripts/sync-froggy.sh */
+/* ============================================================
+   froggy-bird.css — styles for the Anuran Field Simulator module
+   Everything is namespaced .fb-*. Hosts theme the module by
+   setting the --fb-* custom properties on any ancestor of the
+   mount element; the fallbacks give a sincere institutional
+   look (monochromatic greens) out of the box.
+   ============================================================ */
+
+.fb-root {
+  line-height: 1.7;
+}
+
+.fb-stage {
+  max-width: 480px;
+  margin: 18px 0 12px;
+  border: 1px solid var(--fb-border, #b8c9bc);
+  background: #cfe8d6;
+  /* keep the canvas 4:3 and never let it overflow the column */
+  line-height: 0;
+}
+
+.fb-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* taps flap the frog instead of scrolling/zooming the page */
+  touch-action: none;
+  cursor: pointer;
+}
+
+.fb-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 480px;
+  margin-bottom: 12px;
+}
+
+.fb-btn {
+  min-width: 180px;
+  background: var(--fb-accent, #1a6b3a);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: var(--fb-ui-font, Arial, sans-serif);
+  font-size: 0.82rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  padding: 10px 24px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.fb-btn:hover {
+  background: var(--fb-accent-l, #2a8f50);
+}
+
+.fb-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.82rem;
+  color: var(--fb-muted, #566359);
+}
+
+/* ── Specimen skin picker ─────────────────────────────────── */
+.fb-skins {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 480px;
+  margin-bottom: 14px;
+}
+
+.fb-skins-label {
+  font-size: 0.65rem;
+  font-family: var(--fb-ui-font, Arial, sans-serif);
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fb-muted, #566359);
+  margin-right: 2px;
+}
+
+.fb-skin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--fb-ui-font, Arial, sans-serif);
+  font-size: 0.72rem;
+  color: var(--fb-text, #1a1a1a);
+  background: var(--fb-chip-bg, #eaf2ec);
+  border: 1px solid var(--fb-border, #b8c9bc);
+  border-radius: 2px;
+  padding: 5px 9px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.fb-skin:hover:not(:disabled) {
+  border-color: var(--fb-accent-l, #2a8f50);
+}
+
+.fb-skin-on {
+  border-color: var(--fb-accent, #1a6b3a);
+  background: var(--fb-chip-on-bg, #e0f0e6);
+  font-weight: bold;
+}
+
+.fb-skin-locked {
+  color: var(--fb-muted-l, #8a9e8e);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.fb-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.fb-lock {
+  color: var(--fb-muted-l, #8a9e8e);
+  font-size: 0.66rem;
+}
+
+@media (max-width: 767px) {
+  .fb-btn {
+    width: auto;
+    min-height: 44px;
+  }
+
+  .fb-meta {
+    gap: 10px;
+  }
+}

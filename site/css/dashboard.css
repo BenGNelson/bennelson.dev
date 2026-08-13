@@ -1,0 +1,192 @@
+/* ============================================================
+   dashboard.css — the home page: hero status card, service grid,
+   changelog. Pure structure and pro-mode look; friend.css owns
+   the other two modes.
+   ============================================================ */
+
+/* ── Hero: ben, as a running service ────────────────────────── */
+.hero {
+  margin-top: 34px;
+  padding: 26px 28px 22px;
+}
+
+.hero-statusline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.hero-statusline strong { color: var(--text); }
+.hero-version { color: var(--accent); }
+
+.hero h1 {
+  font-size: 2rem;
+  margin: 10px 0 2px;
+  letter-spacing: -0.01em;
+}
+
+.hero-tag {
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.gauges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.gauge {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+}
+.g-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+.g-value {
+  font-family: var(--font-mono);
+  font-size: 1.02rem;
+  margin-top: 3px;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.g-value .g-unit { color: var(--muted); font-size: 0.75rem; }
+
+/* ── Services grid ──────────────────────────────────────────── */
+.services-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 40px 0 16px;
+}
+.services-head h2 {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+}
+.services-head h2::before { content: "## "; color: var(--faint); }
+.services-count { font-family: var(--font-mono); font-size: 0.75rem; color: var(--faint); }
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.svc {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.svc:hover { border-color: var(--accent); }
+
+.svc-thumb {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-2);
+  user-select: none;
+}
+.svc-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+.svc-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+.svc-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.svc-name {
+  font-family: var(--font-mono);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+.svc-tags {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--faint);
+  letter-spacing: 0.04em;
+}
+
+.svc-desc { font-size: 0.86rem; color: var(--muted); flex: 1; }
+
+.svc-links {
+  display: flex;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+/* ── Changelog (the bio) ────────────────────────────────────── */
+.changelog {
+  margin-top: 40px;
+  padding: 24px 28px;
+}
+.changelog h2 {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+}
+.changelog h2::before { content: "## "; color: var(--faint); }
+
+.changelog ul { list-style: none; }
+.changelog li {
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.changelog li:first-child { border-top: none; }
+.changelog li strong { color: var(--text); }
+.cl-ver {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  margin-right: 10px;
+  font-size: 0.8rem;
+}
+
+/* ── 404 page ───────────────────────────────────────────────── */
+.err-wrap {
+  margin: 12vh auto 0;
+  max-width: 560px;
+  padding: 34px 36px;
+  text-align: left;
+  font-family: var(--font-mono);
+}
+.err-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.err-wrap h1 { font-size: 1.5rem; margin: 12px 0 8px; }
+.err-wrap p { color: var(--muted); font-size: 0.9rem; margin-bottom: 8px; }
+.dot-flatline {
+  background: var(--bad);
+  animation: flatline 1.6s ease-in-out infinite;
+}
+@keyframes flatline {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 20px 18px; }
+  .hero h1 { font-size: 1.6rem; }
+}

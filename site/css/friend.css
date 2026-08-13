@@ -1,0 +1,109 @@
+/* ============================================================
+   friend.css — what happens when Professional Mode goes OFF.
+   Tier 1 (casual): warm palette, party status dots, honest copy.
+   Tier 2 (frog):   EXTREMELY OFF. Comic Sans, party gradient,
+                    frog rain, no regrets.
+   All copy swaps happen via data-casual/data-frog attributes in
+   the HTML (mode.js applies them); this file is looks only.
+   ============================================================ */
+
+/* ── Tier 1: casual ─────────────────────────────────────────── */
+[data-mode="casual"] {
+  --bg: #171310;
+  --panel: #201a15;
+  --panel-2: #281f18;
+  --border: #3a2d22;
+  --text: #ecdfd2;
+  --muted: #b09880;
+  --faint: #7d6a58;
+  --accent: #ff9d5c;
+}
+
+[data-mode="casual"] .only-casual { display: revert; }
+
+/* status dots go party */
+[data-mode="casual"] .svc:nth-child(3n)   .dot-ok { background: #ff9d5c; box-shadow: 0 0 6px rgba(255, 157, 92, 0.5); }
+[data-mode="casual"] .svc:nth-child(3n+1) .dot-ok { background: #d6409f; box-shadow: 0 0 6px rgba(214, 64, 159, 0.5); }
+[data-mode="casual"] .svc:nth-child(3n+2) .dot-ok { background: #46c8f0; box-shadow: 0 0 6px rgba(70, 200, 240, 0.5); }
+
+/* ── Tier 2: frog ───────────────────────────────────────────── */
+[data-mode="frog"] {
+  --bg: #10240f;
+  --panel: #1a3318;
+  --panel-2: #224021;
+  --border: #3c6339;
+  --text: #eaffe6;
+  --muted: #a8d6a0;
+  --faint: #6f9c68;
+  --accent: #ffd93d;
+  --ok: #7bed6f;
+  --font-ui: "Comic Sans MS", "Comic Neue", "Chalkboard SE", cursive;
+  --font-mono: "Comic Sans MS", "Comic Neue", "Chalkboard SE", cursive;
+}
+
+[data-mode="frog"] .only-casual,
+[data-mode="frog"] .only-frog { display: revert; }
+
+[data-mode="frog"] .site-head {
+  background: linear-gradient(90deg, #1a3318, #2c5e28, #1a6b3a, #2c5e28, #1a3318);
+  background-size: 300% 100%;
+  animation: frog-header 6s linear infinite;
+}
+@keyframes frog-header {
+  0% { background-position: 0% 0; }
+  100% { background-position: 300% 0; }
+}
+
+/* changelog entries croak */
+[data-mode="frog"] .changelog li::before { content: "🐸 "; }
+
+/* everything gets slightly too round */
+[data-mode="frog"] .panel,
+[data-mode="frog"] .gauge,
+[data-mode="frog"] .mode-toggle { border-radius: 14px; }
+
+[data-mode="frog"] .hero h1::after { content: " 🐸"; }
+
+/* dots all party, all the time */
+[data-mode="frog"] .dot-ok {
+  animation: frog-dot 1.2s ease-in-out infinite;
+}
+@keyframes frog-dot {
+  0%, 100% { background: #7bed6f; }
+  33% { background: #ffd93d; }
+  66% { background: #d6409f; }
+}
+
+/* ── Frog rain (frog mode only; mode.js respects reduced-motion) */
+.frog-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  display: none;
+}
+[data-mode="frog"] .frog-rain { display: block; }
+
+/* ── Achievement toast (Konami, etc.) ───────────────────────── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(140%);
+  background: var(--panel-2);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 12px 20px;
+  z-index: 50;
+  transition: transform 0.3s ease;
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.toast-show { transform: translateX(-50%) translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .frog-rain { display: none !important; }
+}

@@ -1,0 +1,22 @@
+.PHONY: serve serve-quick test check-secrets sync-froggy
+
+# Local dev on :8090 via wrangler in a container (faithful 404/_headers
+# behavior; no host Node required anywhere). The named volume caches npx
+# downloads so only the first start is slow.
+serve:
+	docker run --rm -it -p 8090:8090 -v "$(PWD)":/app -w /app \
+		-v bennelson-dev-npx:/root/.npm \
+		node:20-alpine npx --yes wrangler dev --ip 0.0.0.0 --port 8090
+
+# Dumb static server fallback (no 404 routing, no headers) — fast iteration.
+serve-quick:
+	docker run --rm -it -p 8090:80 -v "$(PWD)/site":/usr/local/apache2/htdocs:ro httpd:2.4-alpine
+
+test:
+	scripts/test.sh
+
+check-secrets:
+	scripts/test.sh secrets
+
+sync-froggy:
+	scripts/sync-froggy.sh
