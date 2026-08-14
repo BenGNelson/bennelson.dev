@@ -1,5 +1,7 @@
 {
-  "name": "bennelson-dev",
+  // Must match the Worker name Workers Builds deploys to (auto-derived from
+  // the repo name when the git connection was created).
+  "name": "bennelson-dot-dev",
   "compatibility_date": "2026-08-13",
   "assets": {
     "directory": "./site",
