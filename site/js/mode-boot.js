@@ -7,7 +7,7 @@
 	try {
 		var s = JSON.parse(localStorage.getItem('bennelson.mode') || '{}');
 		var WEEK = 6048e5;
-		if (s && (s.m === 'casual' || s.m === 'frog') && s.t && Date.now() - s.t < WEEK) {
+		if (s && s.m === 'frog' && s.t && Date.now() - s.t < WEEK) {
 			mode = s.m;
 		}
 	} catch (e) {}

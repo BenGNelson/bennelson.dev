@@ -1,34 +1,10 @@
 /* ============================================================
-   friend.css — what happens when Professional Mode goes OFF.
-   Tier 1 (casual): warm palette, party status dots, honest copy.
-   Tier 2 (frog):   EXTREMELY OFF. Comic Sans, party gradient,
-                    frog rain, no regrets.
-   All copy swaps happen via data-casual/data-frog attributes in
-   the HTML (mode.js applies them); this file is looks only.
+   friend.css — what happens when Professional Mode goes
+   EXTREMELY OFF. Comic Sans, party gradient, frog rain,
+   no regrets.
+   All copy swaps happen via data-frog attributes in the HTML
+   (mode.js applies them); this file is looks only.
    ============================================================ */
-
-/* ── Tier 1: casual ─────────────────────────────────────────── */
-[data-mode="casual"] {
-  --bg: #171310;
-  --panel: #201a15;
-  --panel-2: #281f18;
-  --border: #3a2d22;
-  --text: #ecdfd2;
-  --muted: #b09880;
-  --faint: #7d6a58;
-  --accent: #ff9d5c;
-}
-
-[data-mode="casual"] .only-casual { display: revert; }
-[data-mode="casual"] .only-pro,
-[data-mode="frog"] .only-pro { display: none; }
-
-/* status dots go party */
-[data-mode="casual"] .svc:nth-child(3n)   .dot-ok { background: #ff9d5c; box-shadow: 0 0 6px rgba(255, 157, 92, 0.5); }
-[data-mode="casual"] .svc:nth-child(3n+1) .dot-ok { background: #d6409f; box-shadow: 0 0 6px rgba(214, 64, 159, 0.5); }
-[data-mode="casual"] .svc:nth-child(3n+2) .dot-ok { background: #46c8f0; box-shadow: 0 0 6px rgba(70, 200, 240, 0.5); }
-
-/* ── Tier 2: frog ───────────────────────────────────────────── */
 [data-mode="frog"] {
   --bg: #10240f;
   --panel: #1a3318;
@@ -43,8 +19,8 @@
   --font-mono: "Comic Sans MS", "Comic Neue", "Chalkboard SE", cursive;
 }
 
-[data-mode="frog"] .only-casual,
 [data-mode="frog"] .only-frog { display: revert; }
+[data-mode="frog"] .only-pro { display: none; }
 
 [data-mode="frog"] .site-head {
   background: linear-gradient(90deg, #1a3318, #2c5e28, #1a6b3a, #2c5e28, #1a3318);
@@ -56,7 +32,7 @@
   100% { background-position: 300% 0; }
 }
 
-/* changelog entries croak */
+/* list panels croak (the contact page uses the same list styling) */
 [data-mode="frog"] .changelog li::before { content: "🐸 "; }
 
 /* everything gets slightly too round */

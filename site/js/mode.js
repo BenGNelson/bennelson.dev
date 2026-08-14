@@ -1,11 +1,10 @@
 /* ============================================================
    mode.js — the Professional Mode machine.
-   Three tiers on <html data-mode>:
-     pro    — default. Employer-safe. The toggle reads ON.
-     casual — toggle OFF. Honest metrics, warm palette.
-     frog   — toggle EXTREMELY OFF. Comic Sans. Frog rain.
-   Copy swaps live in the HTML as data-casual / data-frog
-   attributes so the markup stays the single source of text.
+   Two tiers on <html data-mode>:
+     pro  — default. Employer-safe. The toggle reads ON.
+     frog — toggle EXTREMELY OFF. Comic Sans. Frog rain.
+   Copy swaps live in the HTML as data-frog attributes so the
+   markup stays the single source of text.
    Persistence: one localStorage key, 7-day expiry (mode-boot.js
    enforces the expiry before first paint).
    ============================================================ */
@@ -14,8 +13,8 @@
 	'use strict';
 
 	var KEY = 'bennelson.mode';
-	var ORDER = ['pro', 'casual', 'frog'];
-	var STATE_LABEL = { pro: 'ON', casual: 'OFF', frog: 'EXTREMELY OFF' };
+	var ORDER = ['pro', 'frog'];
+	var STATE_LABEL = { pro: 'ON', frog: 'EXTREMELY OFF' };
 
 	function current() {
 		return document.documentElement.dataset.mode || 'pro';
@@ -27,19 +26,14 @@
 		} catch (e) {}
 	}
 
-	// Swap every element carrying data-casual/data-frog. The pro text is
-	// captured from the markup on first use so cycling is lossless.
+	// Swap every element carrying data-frog. The pro text is captured
+	// from the markup on first use so cycling is lossless.
 	function applyCopy(mode) {
-		var els = document.querySelectorAll('[data-casual], [data-frog]');
+		var els = document.querySelectorAll('[data-frog]');
 		for (var i = 0; i < els.length; i++) {
 			var el = els[i];
 			if (el.dataset.pro === undefined) el.dataset.pro = el.textContent;
-			var text =
-				mode === 'frog'
-					? (el.dataset.frog || el.dataset.casual || el.dataset.pro)
-					: mode === 'casual'
-						? (el.dataset.casual || el.dataset.pro)
-						: el.dataset.pro;
+			var text = mode === 'frog' ? el.dataset.frog : el.dataset.pro;
 			// Skip no-op writes: assigning textContent would still destroy any
 			// child elements, and swap targets must stay lossless leaves.
 			if (el.textContent !== text) el.textContent = text;

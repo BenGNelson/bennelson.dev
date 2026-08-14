@@ -1,1 +1,4 @@
 .githooks/*.local
+
+# wrangler dev residue
+.wrangler/

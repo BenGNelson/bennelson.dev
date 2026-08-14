@@ -1,10 +1,9 @@
 # bennelson.dev
 
 Personal site, built as what it documents: a service dashboard. Portfolio as
-running services, bio as a changelog, a homelab tour with the machines renamed
-to kitchen appliances, a friends portal for Plex requests, and the
-[froggy-bird](https://github.com/BenGNelson/froggy-bird) field simulator at
-`/froggy-bird`.
+running services, a homelab tour with the machines renamed to kitchen
+appliances, and the [froggy-bird](https://github.com/BenGNelson/froggy-bird)
+field simulator at `/froggy-bird`.
 
 Ships with a **Professional Mode toggle** that starts ON. What happens when you
 turn it off is between you and the frogs.
@@ -30,8 +29,8 @@ make sync-froggy   # pull froggy-bird from a sibling checkout into site/vendor/
 
 ```
 wrangler.jsonc   assets-only Worker config (site/ is the deployed directory)
-site/            the site: index, homelab/, froggy-bird/, friends/, contact/,
+site/            the site: index, homelab/, froggy-bird/, contact/,
                  hq-demo/, 404.html, _headers
-site/js/mode.js  the three-tier Professional Mode machine
+site/js/mode.js  the Professional Mode machine (pro/frog)
 site/vendor/     synced copies of external modules — never edited in place
 ```

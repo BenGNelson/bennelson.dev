@@ -32,8 +32,8 @@
 		);
 		console.log(
 			'%cA person who self-hosts things. You opened the console, so you should\n' +
-			'know: the Professional Mode toggle in the header goes further than one\n' +
-			'click. And a certain 1986 cheat code still works.',
+			'know: the Professional Mode toggle in the header is not decorative.\n' +
+			'And a certain 1986 cheat code still works.',
 			'color:#7f8d9b;font-family:monospace;line-height:1.6',
 		);
 	} catch (e) {}

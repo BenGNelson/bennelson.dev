@@ -27,6 +27,16 @@
       padding: 24px 28px;
       margin-top: 0;
     }
+    /* The module ships sized for a text column (480px). Here the game is the
+       whole page, so let it take the panel — capped so the 4:3 stage still
+       fits on a laptop screen without scrolling to see the frog. */
+    .game-panel .fb-stage,
+    .game-panel .fb-meta,
+    .game-panel .fb-skins {
+      max-width: min(100%, 78vh * 4 / 3, 880px);
+      margin-left: auto;
+      margin-right: auto;
+    }
     .game-panel .fb-stage { margin-top: 0; }
   </style>
 </head>
@@ -39,12 +49,11 @@
         <a href="/">dashboard</a>
         <a href="/homelab/">homelab</a>
         <a href="/froggy-bird/" aria-current="page">froggy-bird</a>
-        <a href="/friends/">friends</a>
         <a href="/contact/">contact</a>
       </nav>
       <button class="mode-toggle" type="button" aria-pressed="true" aria-label="Professional Mode: ON — activate to change">
         <span class="mode-track"><span class="mode-knob"></span></span>
-        <span class="mode-label">PROFESSIONAL MODE:</span>
+        <span class="mode-label" data-frog="PRO MODE:">PROFESSIONAL MODE:</span>
         <span class="mode-state">ON</span>
       </button>
     </div>
@@ -54,8 +63,7 @@
     <h1 class="page-title" data-frog="the main event">froggy-bird</h1>
     <p class="page-sub">The <strong>Anuran Field Simulator</strong>. Pilot a specimen
        along the wetland transect; every reed cleared logs one observation-hour.
-       Click, tap, or press Space to flap.
-       <span class="only-casual">The heron is not a bug.</span>
+       Click, tap, or press Space to flap. The heron is not a bug.
        <span class="only-frog">fly, fool.</span></p>
 
     <section class="panel game-panel">

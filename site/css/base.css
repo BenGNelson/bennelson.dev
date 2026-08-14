@@ -1,8 +1,8 @@
 /* ============================================================
    base.css — tokens, layout, chrome
-   The whole site reads as a service dashboard. Three modes hang
-   off <html data-mode="pro|casual|frog">; this file defines the
-   professional default, friend.css layers the other two on top.
+   The whole site reads as a service dashboard. Two modes hang
+   off <html data-mode="pro|frog">; this file defines the
+   professional default, friend.css layers frog mode on top.
    ============================================================ */
 
 :root {
@@ -118,7 +118,11 @@ a:hover { text-decoration: underline; }
   border-radius: 999px;
   padding: 5px 12px 5px 8px;
   cursor: pointer;
-  font-family: var(--font-mono);
+  /* Literal stack, not var(--font-mono): frog mode swaps that variable to
+     Comic Sans, and the control itself must not change size when flipped.
+     (The label also shortens to "PRO MODE:" in frog via data-frog, so the
+     pill's total width stays put as the state grows to EXTREMELY OFF.) */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   color: var(--muted);
@@ -145,14 +149,14 @@ a:hover { text-decoration: underline; }
   background: #fff;
   transition: left 0.2s;
 }
-[data-mode="casual"] .mode-track { background: var(--warn); }
-[data-mode="frog"]   .mode-track { background: #d6409f; }
-[data-mode="casual"] .mode-knob,
-[data-mode="frog"]   .mode-knob { left: 2px; }
+[data-mode="frog"] .mode-track { background: #d6409f; }
+[data-mode="frog"] .mode-knob { left: 2px; }
 
-.mode-state { font-weight: bold; color: var(--ok); }
-[data-mode="casual"] .mode-state { color: var(--warn); }
-[data-mode="frog"]   .mode-state { color: #d6409f; }
+/* min-width balances the two states exactly (monospace, so ch is exact):
+   pro  "PROFESSIONAL MODE:" (18ch) + "ON" padded to 4ch      = 22ch
+   frog "PRO MODE:" (9ch)          + "EXTREMELY OFF" (13ch)   = 22ch */
+.mode-state { font-weight: bold; color: var(--ok); display: inline-block; min-width: 4ch; }
+[data-mode="frog"] .mode-state { color: #d6409f; }
 
 /* ── Page headings ──────────────────────────────────────────── */
 .page-title {
@@ -177,7 +181,7 @@ a:hover { text-decoration: underline; }
 .site-foot .foot-line { margin-top: 4px; }
 
 /* mode-gated content: hidden until friend.css reveals it */
-.only-casual, .only-frog { display: none; }
+.only-frog { display: none; }
 
 /* ── Accessibility ──────────────────────────────────────────── */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

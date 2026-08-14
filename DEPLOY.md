@@ -30,5 +30,5 @@ covered by the apex attachment. TLS is issued and renewed by the platform.
 - `_headers` and `_redirects` apply only to static asset responses.
 - Per-file cap is 25 MiB — nothing on this site should ever approach it; large
   media doesn't belong in this repo at all.
-- The friends portal (`requests.` subdomain) is separate infrastructure — a
-  tunnel from home — and deploys have no effect on it.
+- The request portal (`requests.` subdomain, unlisted) is separate
+  infrastructure — a tunnel from home — and deploys have no effect on it.
