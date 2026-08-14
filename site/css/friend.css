@@ -20,6 +20,8 @@
 }
 
 [data-mode="casual"] .only-casual { display: revert; }
+[data-mode="casual"] .only-pro,
+[data-mode="frog"] .only-pro { display: none; }
 
 /* status dots go party */
 [data-mode="casual"] .svc:nth-child(3n)   .dot-ok { background: #ff9d5c; box-shadow: 0 0 6px rgba(255, 157, 92, 0.5); }

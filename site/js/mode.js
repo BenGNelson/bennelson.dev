@@ -40,7 +40,9 @@
 					: mode === 'casual'
 						? (el.dataset.casual || el.dataset.pro)
 						: el.dataset.pro;
-			el.textContent = text;
+			// Skip no-op writes: assigning textContent would still destroy any
+			// child elements, and swap targets must stay lossless leaves.
+			if (el.textContent !== text) el.textContent = text;
 		}
 	}
 
