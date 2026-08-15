@@ -36,7 +36,7 @@ echo "   ok"
 echo "── every page has the mode-boot pre-paint script in <head>"
 for f in site/index.html site/404.html site/*/index.html; do
   [ -f "$f" ] || continue
-  case "$f" in site/hq-demo/*) continue ;; esac
+  case "$f" in site/hq-demo/*|site/binder-demo/*) continue ;; esac  # frozen demos ship no scripts
   if ! grep -q 'js/mode-boot.js' "$f"; then
     echo "   missing mode-boot: $f"
     fail=1
