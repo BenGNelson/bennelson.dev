@@ -12,7 +12,7 @@ _AI-assisted build._
 
 ## Stack
 
-Hand-written static HTML/CSS/JS — no framework, no build step, no external
+Hand-written static HTML/CSS/JS. No framework, no build step, no external
 requests of any kind (the CSP enforces it). Hosted on Cloudflare Workers as an
 assets-only Worker; deploys are `git push`.
 
