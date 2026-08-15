@@ -1,0 +1,5 @@
+# The friends' request line. The path on this domain is the link people get;
+# the app itself lives on the subdomain (it can't be served under a subfolder).
+# 302 on purpose — keeps the handed-out link repointable if the backend moves.
+/requests https://requests.bennelson.dev 302
+/requests/ https://requests.bennelson.dev 302
