@@ -1,4 +1,4 @@
-/* froggy-bird v1.0.0 — vendored, do not edit; run scripts/sync-froggy.sh */
+/* froggy-bird v1.1.0 — vendored, do not edit; run scripts/sync-froggy.sh */
 /* ============================================================
    froggy-bird.js — the Anuran Field Simulator, as a module
    Pilot a specimen along the wetland observation transect. Each
@@ -138,13 +138,25 @@
 		canvas.setAttribute('aria-label', S.canvasLabel);
 		const ctx = canvas.getContext('2d');
 
-		// Logical play-field; upscale for crisp rendering on HiDPI.
+		// Logical play-field. The backing store follows the canvas's rendered
+		// width (× devicePixelRatio) so a host can scale the stage well past
+		// 480px without the bitmap going soft; game code keeps drawing in
+		// 480×360 logical coordinates through the transform. Returns whether
+		// the backing store changed (resizing wipes the canvas, so callers
+		// must redraw when it did).
 		const W = 480,
 			H = 360;
-		const dpr = Math.min(window.devicePixelRatio || 1, 2);
-		canvas.width = W * dpr;
-		canvas.height = H * dpr;
-		ctx.scale(dpr, dpr);
+		const fitCanvas = () => {
+			const cssW = canvas.getBoundingClientRect().width || W;
+			const scale = Math.min(((window.devicePixelRatio || 1) * cssW) / W, 4);
+			const bw = Math.max(1, Math.round(W * scale));
+			if (bw === canvas.width) return false;
+			canvas.width = bw;
+			canvas.height = Math.max(1, Math.round(H * scale));
+			ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
+			return true;
+		};
+		fitCanvas();
 
 		// Physics (logical px / 60fps-frame; dt-normalized in the loop).
 		const FX = 100, // frog x (fixed)
@@ -725,9 +737,18 @@
 		document.addEventListener('keydown', onKey);
 		document.addEventListener('visibilitychange', onVisibility);
 
+		let resizeObserver = null;
+		if (typeof ResizeObserver !== 'undefined') {
+			resizeObserver = new ResizeObserver(() => {
+				if (fitCanvas()) draw();
+			});
+			resizeObserver.observe(canvas);
+		}
+
 		const destroy = () => {
 			stopLoop();
 			state = 'over';
+			if (resizeObserver) resizeObserver.disconnect();
 			document.removeEventListener('keydown', onKey);
 			document.removeEventListener('visibilitychange', onVisibility);
 			el.innerHTML = '';
