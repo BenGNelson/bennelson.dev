@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>homelab — ben</title>
-  <meta name="description" content="The basement server, the fleet of renamed machines, and what it all does.">
+  <meta name="description" content="One mid-tower in a basement runs the whole dashboard: the containers, the smart-home brain, and the workbench next to it.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
   <script src="/js/mode-boot.js"></script>
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/friend.css">
   <style>
-    .lab-section { margin-bottom: 34px; }
+    .lab-section { margin-bottom: 38px; }
     .lab-section h2 {
       font-family: var(--font-mono);
       font-size: 1.05rem;
@@ -21,39 +21,40 @@
     .lab-section p { color: var(--muted); max-width: 72ch; margin-bottom: 10px; }
     .lab-section p strong { color: var(--text); }
 
-    .topo {
-      width: 100%;
-      max-width: 760px;
-      display: block;
+    .machine-panel { padding: 22px 24px 20px; }
+    .machine-panel .gauges { margin-top: 18px; }
+    .machine-panel > p { margin-top: 12px; }
+
+    .ps {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px 16px;
       margin: 14px 0 6px;
       font-family: var(--font-mono);
+      font-size: 0.78rem;
+      overflow-x: auto;
     }
-    .topo .t-box   { fill: var(--panel); stroke: var(--border); rx: 6px; }
-    .topo .t-cloud { fill: var(--panel-2); stroke: var(--border); }
-    .topo .t-name  { fill: var(--text); font-size: 12px; font-weight: bold; }
-    .topo .t-sub   { fill: var(--muted); font-size: 9.5px; }
-    .topo .t-wire  { stroke: var(--faint); stroke-width: 1.2; fill: none; }
-    .topo .t-tunnel { stroke: var(--ok); stroke-width: 1.4; fill: none; stroke-dasharray: 5 4; }
-    .topo .t-lock  { fill: var(--ok); font-size: 10px; }
-    .topo .t-note  { fill: var(--faint); font-size: 9px; }
-
-    .fleet-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    .fleet-table th, .fleet-table td {
+    .ps-prompt { color: var(--faint); margin-bottom: 10px; }
+    .ps-prompt strong { color: var(--accent); font-weight: normal; }
+    .ps table { border-collapse: collapse; }
+    .ps th {
       text-align: left;
-      padding: 8px 12px;
-      border-top: 1px solid var(--border);
-    }
-    .fleet-table th {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.64rem;
       letter-spacing: 0.1em;
-      text-transform: uppercase;
       color: var(--faint);
-      border-top: none;
+      font-weight: normal;
+      padding: 0 34px 6px 0;
     }
-    .fleet-table td:first-child { font-family: var(--font-mono); white-space: nowrap; }
-    .fleet-table td { color: var(--muted); }
-    .fleet-table td strong { color: var(--text); }
+    .ps td {
+      padding: 2.5px 34px 2.5px 0;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .ps td:first-child { color: var(--text); }
+    .ps .ps-up { color: var(--ok); }
+    .ps tr.only-frog { display: none; }
+    [data-mode="frog"] .ps tr.only-frog { display: table-row; }
   </style>
 </head>
 <body>
@@ -77,106 +78,116 @@
 
   <main class="wrap">
     <h1 class="page-title" data-frog="the swamp, technically">the homelab</h1>
-    <p class="page-sub">Everything on the <a href="/">dashboard</a> runs on hardware in
-      my basement. This is the short tour.</p>
+    <p class="page-sub">Everything on the <a href="/">dashboard</a> runs on one
+      mid-tower in my basement. This is the machine, and this is what it does all day.</p>
 
+    <!-- ── the machine ─────────────────────────────────────── -->
     <section class="lab-section">
-      <h2>the basement</h2>
-      <p>Self-hosting is the whole personality of this setup: if I use it every day, I
-        want it running on something I can physically reach. The result is a fleet of
-        machines with one production server at the center: a mid-tower in the basement
-        running the media server, network storage, home automation, and every app on
-        the dashboard.</p>
-      <p><strong>A note on names:</strong> every machine below is renamed for
-        publication. The real hostnames stay home; the kitchen appliances are stand-ins.
-        <span class="only-frog">the real names are frogs. wait. forget i said that.</span></p>
-
-      <svg class="topo" viewBox="0 0 760 320" role="img"
-           aria-label="Network topology: the internet reaches an edge network, which connects by an outbound tunnel to the basement server crockpot; the VPS minifridge sits off-site; laptops, phone and tablet reach home over an encrypted mesh; the desktop microwave stays LAN-only.">
-        <!-- internet -->
-        <ellipse class="t-cloud" cx="80" cy="60" rx="62" ry="30"/>
-        <text class="t-name" x="80" y="58" text-anchor="middle">internet</text>
-        <text class="t-sub" x="80" y="72" text-anchor="middle">(assume hostile)</text>
-
-        <!-- edge -->
-        <rect class="t-box" x="220" y="30" width="150" height="60" rx="6"/>
-        <text class="t-name" x="295" y="55" text-anchor="middle">edge network</text>
-        <text class="t-sub" x="295" y="70" text-anchor="middle">this site · auth · TLS</text>
-
-        <!-- crockpot -->
-        <rect class="t-box" x="520" y="20" width="190" height="86" rx="6"/>
-        <text class="t-name" x="615" y="44" text-anchor="middle">crockpot 🍲</text>
-        <text class="t-sub" x="615" y="60" text-anchor="middle">basement server · slow-cooks 24/7</text>
-        <text class="t-sub" x="615" y="74" text-anchor="middle">media · storage · automation</text>
-        <text class="t-sub" x="615" y="88" text-anchor="middle">7.5TB RAID5 + parity</text>
-
-        <!-- minifridge -->
-        <rect class="t-box" x="220" y="130" width="150" height="56" rx="6"/>
-        <text class="t-name" x="295" y="152" text-anchor="middle">minifridge 🧊</text>
-        <text class="t-sub" x="295" y="168" text-anchor="middle">off-site VPS · always cold, always on</text>
-
-        <!-- mesh devices -->
-        <rect class="t-box" x="520" y="150" width="190" height="112" rx="6"/>
-        <text class="t-name" x="615" y="172" text-anchor="middle">the household fleet</text>
-        <text class="t-sub" x="615" y="190" text-anchor="middle">airfryer 🍟 — the fast laptop</text>
-        <text class="t-sub" x="615" y="204" text-anchor="middle">toaster 🍞 — pops up anywhere</text>
-        <text class="t-sub" x="615" y="218" text-anchor="middle">microwave 📻 — desktop, never moves</text>
-        <text class="t-sub" x="615" y="232" text-anchor="middle">kettle ☕ — the phone, boils over</text>
-        <text class="t-sub" x="615" y="246" text-anchor="middle">eggtimer ⏲ — the tablet</text>
-
-        <!-- wires -->
-        <path class="t-wire" d="M142 60 L220 60"/>
-        <path class="t-tunnel" d="M370 60 L520 60"/>
-        <text class="t-lock" x="445" y="50" text-anchor="middle">⇠ outbound-only tunnel 🔒</text>
-        <text class="t-note" x="445" y="76" text-anchor="middle">nothing at home</text>
-        <text class="t-note" x="445" y="88" text-anchor="middle">listens to the internet</text>
-        <path class="t-wire" d="M142 78 C170 110 190 140 220 154"/>
-        <path class="t-tunnel" d="M615 150 L615 106"/>
-        <text class="t-note" x="668" y="132">encrypted mesh</text>
-
-        <!-- backup arrow -->
-        <path class="t-wire" d="M370 170 C420 190 440 250 520 256" stroke-dasharray="2 4"/>
-        <text class="t-note" x="400" y="288" text-anchor="middle">⇠ nightly encrypted backups leave the house</text>
-      </svg>
+      <h2 data-frog="the beast">the machine</h2>
+      <div class="panel machine-panel">
+        <div class="hero-statusline">
+          <span class="dot dot-ok"></span>
+          <strong>prod</strong>
+          <span data-frog="— fleet of one frog">— fleet of one</span>
+          <span data-frog="— status: COZY">— status: OPERATIONAL</span>
+        </div>
+        <div class="gauges">
+          <div class="gauge">
+            <div class="g-label">cpu</div>
+            <div class="g-value" data-frog="6 frogs @ 3.6GHz">i5-8600K · 6 cores</div>
+          </div>
+          <div class="gauge">
+            <div class="g-label" data-frog="fly buffer">memory</div>
+            <div class="g-value" data-frog="16GB of flies">16GB</div>
+          </div>
+          <div class="gauge">
+            <div class="g-label">os</div>
+            <div class="g-value" data-frog="swamp linux">Ubuntu LTS</div>
+          </div>
+          <div class="gauge">
+            <div class="g-label">storage</div>
+            <div class="g-value" data-frog="redundant lily pads">SSDs · software RAID</div>
+          </div>
+        </div>
+        <p>This is production: one mid-tower, built from parts, running 24/7 a few
+          feet from the workbench it was assembled on. It carries the media server,
+          the network storage, the smart-home brain, and every app on the dashboard,
+          all at once, on six cores that rarely notice.</p>
+        <p>The storage is a stack of SSDs in software RAID. It survives losing a
+          drive, and the stuff I genuinely couldn't replace also leaves the house
+          every night, encrypted, to sleep somewhere else.</p>
+      </div>
     </section>
 
+    <!-- ── the container platform ──────────────────────────── -->
     <section class="lab-section">
-      <h2>the hardware</h2>
-      <table class="fleet-table">
-        <tr><th>unit</th><th>role</th><th>notes</th></tr>
-        <tr><td>crockpot 🍲</td>
-          <td><strong>production.</strong> 6-core, 16GB, Linux</td>
-          <td>Runs everything: the media server, ~20 containers, network shares, and the
-              home-automation brain.</td></tr>
-        <tr><td>the array</td>
-          <td><strong>7.5TB usable RAID5</strong></td>
-          <td>Three drives, survives losing any one of them. Health-checked nightly;
-              the irreplaceable stuff also leaves the house every night, encrypted.</td></tr>
-        <tr><td>minifridge 🧊</td>
-          <td>public VPS</td>
-          <td>The only machine that lives on the open internet, deliberately outside the
-              home network with no way back in.</td></tr>
-        <tr><td>airfryer / toaster / microwave</td>
-          <td>dev machines</td>
-          <td>Where things get built before they're allowed in the basement.
-              <span class="only-frog">the airfryer is fast. suspiciously fast.</span></td></tr>
-      </table>
+      <h2 data-frog="the tadpole tank">the container platform</h2>
+      <p>The apps on the dashboard aren't hosted anywhere. They're containers on this
+        box. Each one is its own small stack with its own compose file and its own
+        network, so a bad day for one app is a boring day for the rest. At any given
+        moment about twenty containers are running.</p>
+      <div class="ps" role="img" aria-label="A condensed docker compose ps listing: media server, home automation, the dashboard apps, DNS filter, VPN gateway and friends, all Up.">
+        <div class="ps-prompt"><strong>$</strong> docker compose ps <span>· condensed, service names generic on purpose</span></div>
+        <table>
+          <tr><th>name</th><th>status</th></tr>
+          <tr><td>media-server</td><td class="ps-up">Up 5 weeks</td></tr>
+          <tr><td>home-automation</td><td class="ps-up">Up 5 weeks (healthy)</td></tr>
+          <tr><td>zwave-radio</td><td class="ps-up">Up 5 weeks</td></tr>
+          <tr><td>home-hq</td><td class="ps-up">Up 3 days</td></tr>
+          <tr><td>game-station</td><td class="ps-up">Up 2 weeks</td></tr>
+          <tr><td>card-binder</td><td class="ps-up">Up 6 days</td></tr>
+          <tr><td>family-cards</td><td class="ps-up">Up 8 weeks</td></tr>
+          <tr><td>dns-filter</td><td class="ps-up">Up 5 weeks</td></tr>
+          <tr><td>vpn-gateway</td><td class="ps-up">Up 5 weeks (healthy)</td></tr>
+          <tr><td>downloader</td><td class="ps-up">Up 5 weeks (network: vpn-gateway)</td></tr>
+          <tr><td>auto-updater</td><td class="ps-up">Up 5 weeks</td></tr>
+          <tr class="only-frog"><td>frog-rain</td><td class="ps-up">Up forever (do not stop)</td></tr>
+          <tr><td>…and friends</td><td class="ps-up">Up</td></tr>
+        </table>
+      </div>
+      <p>New code gets built and tested on a laptop upstairs, then shipped down to
+        the basement. Images refresh themselves overnight, so if something breaks at
+        4am, past me finds out at breakfast.</p>
+      <p><strong>House rules:</strong> the firewall denies by default, versions are
+        pinned, and nothing inside the house listens to the internet. The one thing
+        friends can reach connects outward through a tunnel, so there's no door to
+        knock on.</p>
     </section>
 
+    <!-- ── the house is a client ───────────────────────────── -->
     <section class="lab-section">
-      <h2>mission control</h2>
-      <p>All of it is observable from <strong>home-hq</strong>, the self-hosted
-        dashboard that started this whole thing. The real one never leaves the
-        house, but there's a <a href="/hq-demo/">full simulation with canned data</a>
-        you can click around.</p>
-      <p>House rules: <strong>deny by default, pin versions, and write down anything
-        weird.</strong></p>
+      <h2 data-frog="the pond has opinions">the house is a client</h2>
+      <p>The same box runs the smart-home brain, with two USB radios plugged into
+        it: one speaks Zigbee, the other Z-Wave. It knows what the thermostats are
+        doing, whether the washer and dryer have finished, how charged the car is,
+        and whether the cat's heated blanket is on. <span data-frog="(the cat outranks everyone on this network.)">(The
+        blanket has its own smart plug. The cat is the most monitored resident of
+        the house.)</span></p>
+      <p>On top of that sits <strong>home-hq</strong>, the dashboard that started
+        this whole site. The real one never leaves the house, but there's a
+        <a href="/hq-demo/">full simulation with canned data</a> you can click
+        around.</p>
+    </section>
+
+    <!-- ── the workbench ───────────────────────────────────── -->
+    <section class="lab-section">
+      <h2 data-frog="the mad science corner">the workbench</h2>
+      <p>The unfinished half of the basement is where hardware goes to be tinkered
+        with. A 3D printer that mostly prints upgrades for itself. A Raspberry Pi
+        that boots straight into a retro game console. A laser printer old enough to
+        have opinions about drivers, resurrected as a network printer by plugging it
+        into the server. And the docking spot where the laptops live between trips
+        around the house.</p>
+      <p>Every project on the dashboard started on this bench, got built on a laptop,
+        and earned its way onto the machine humming next to it. That's the whole
+        pipeline, and the commute is one flight of stairs.</p>
     </section>
   </main>
 
   <footer class="site-foot">
     <div>© Ben Nelson · est. 1987 · est. 2003 · since 1991</div>
-    <div class="foot-line">everything you just read is renamed. the frogs, however, are real</div>
+    <div class="foot-line">one basement, one server, zero cloud bills</div>
+    <div class="foot-line only-frog">🐸 the pond is production 🐸</div>
   </footer>
 
   <script src="/js/mode.js"></script>
