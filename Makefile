@@ -2,11 +2,17 @@
 
 # Local dev on :8090 via wrangler in a container (faithful 404/_headers
 # behavior; no host Node required anywhere). The named volume caches npx
-# downloads so only the first start is slow.
+# downloads so only the first start is slow. Two hard-won pins:
+#  - Debian image, not alpine: wrangler spawns the workerd binary, which is
+#    glibc-linked and dies with a bogus ENOENT on musl.
+#  - Exact wrangler version: a bare "wrangler" sticks at whatever npx cached,
+#    whose runtime eventually predates wrangler.jsonc's compatibility_date.
+#    Bump WRANGLER when bumping that date.
+WRANGLER := 4.123.0
 serve:
 	docker run --rm -it -p 8090:8090 -v "$(PWD)":/app -w /app \
 		-v bennelson-dev-npx:/root/.npm \
-		node:20-alpine npx --yes wrangler dev --ip 0.0.0.0 --port 8090
+		node:22-bookworm-slim npx --yes wrangler@$(WRANGLER) dev --ip 0.0.0.0 --port 8090
 
 # Dumb static server fallback (no 404 routing, no headers) — fast iteration.
 serve-quick:
