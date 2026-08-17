@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>homelab — ben</title>
-  <meta name="description" content="One mid-tower in a basement runs the whole dashboard: the containers, the smart-home brain, and the workbench next to it.">
+  <meta name="description" content="One mid-tower in a basement runs the whole dashboard. The short tour.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
   <script src="/js/mode-boot.js"></script>
   <link rel="stylesheet" href="/css/base.css">
@@ -79,7 +79,7 @@
   <main class="wrap">
     <h1 class="page-title" data-frog="the swamp, technically">the homelab</h1>
     <p class="page-sub">Everything on the <a href="/">dashboard</a> runs on one
-      mid-tower in my basement. This is the machine, and this is what it does all day.</p>
+      mid-tower in my basement.</p>
 
     <!-- ── the machine ─────────────────────────────────────── -->
     <section class="lab-section">
@@ -106,81 +106,47 @@
           </div>
           <div class="gauge">
             <div class="g-label">storage</div>
-            <div class="g-value" data-frog="redundant lily pads">SSDs · software RAID</div>
+            <div class="g-value" data-frog="redundant lily pads">hard drives · RAID</div>
           </div>
         </div>
-        <p>This is production: one mid-tower, built from parts, running 24/7 a few
-          feet from the workbench it was assembled on. It carries the media server,
-          the network storage, the smart-home brain, and every app on the dashboard,
-          all at once, on six cores that rarely notice.</p>
-        <p>The storage is a stack of SSDs in software RAID. It survives losing a
-          drive, and the stuff I genuinely couldn't replace also leaves the house
-          every night, encrypted, to sleep somewhere else.</p>
+        <p>Built from parts, running 24/7 a few feet from the workbench it was
+          assembled on. The stuff I couldn't replace also leaves the house every
+          night, encrypted.</p>
       </div>
     </section>
 
-    <!-- ── the container platform ──────────────────────────── -->
+    <!-- ── what it runs ────────────────────────────────────── -->
     <section class="lab-section">
-      <h2 data-frog="the tadpole tank">the container platform</h2>
-      <p>The apps on the dashboard aren't hosted anywhere. They're containers on this
-        box. Each one is its own small stack with its own compose file and its own
-        network, so a bad day for one app is a boring day for the rest. At any given
-        moment about twenty containers are running.</p>
-      <div class="ps" role="img" aria-label="A condensed docker compose ps listing: media server, home automation, the dashboard apps, DNS filter, VPN gateway and friends, all Up.">
-        <div class="ps-prompt"><strong>$</strong> docker compose ps <span>· condensed, service names generic on purpose</span></div>
+      <h2 data-frog="the tadpole tank">what it runs</h2>
+      <p>Every app on the dashboard is a container on this box, alongside the media
+        server and the smart-home brain. The headliners:</p>
+      <div class="ps" role="img" aria-label="A condensed docker compose ps listing: media server, home automation, home-hq, game station and card binder, all Up, plus other things.">
+        <div class="ps-prompt"><strong>$</strong> docker compose ps · condensed</div>
         <table>
           <tr><th>name</th><th>status</th></tr>
           <tr><td>media-server</td><td class="ps-up">Up 5 weeks</td></tr>
           <tr><td>home-automation</td><td class="ps-up">Up 5 weeks (healthy)</td></tr>
-          <tr><td>zwave-radio</td><td class="ps-up">Up 5 weeks</td></tr>
           <tr><td>home-hq</td><td class="ps-up">Up 3 days</td></tr>
           <tr><td>game-station</td><td class="ps-up">Up 2 weeks</td></tr>
           <tr><td>card-binder</td><td class="ps-up">Up 6 days</td></tr>
-          <tr><td>family-cards</td><td class="ps-up">Up 8 weeks</td></tr>
-          <tr><td>dns-filter</td><td class="ps-up">Up 5 weeks</td></tr>
-          <tr><td>vpn-gateway</td><td class="ps-up">Up 5 weeks (healthy)</td></tr>
-          <tr><td>downloader</td><td class="ps-up">Up 5 weeks (network: vpn-gateway)</td></tr>
-          <tr><td>auto-updater</td><td class="ps-up">Up 5 weeks</td></tr>
           <tr class="only-frog"><td>frog-rain</td><td class="ps-up">Up forever (do not stop)</td></tr>
-          <tr><td>…and friends</td><td class="ps-up">Up</td></tr>
+          <tr><td>…and other things</td><td class="ps-up">Up</td></tr>
         </table>
       </div>
-      <p>New code gets built and tested on a laptop upstairs, then shipped down to
-        the basement. Images refresh themselves overnight, so if something breaks at
-        4am, past me finds out at breakfast.</p>
       <p><strong>House rules:</strong> the firewall denies by default, versions are
-        pinned, and nothing inside the house listens to the internet. The one thing
-        friends can reach connects outward through a tunnel, so there's no door to
-        knock on.</p>
+        pinned, and nothing inside the house listens to the internet.</p>
     </section>
 
-    <!-- ── the house is a client ───────────────────────────── -->
+    <!-- ── it also does ────────────────────────────────────── -->
     <section class="lab-section">
-      <h2 data-frog="the pond has opinions">the house is a client</h2>
-      <p>The same box runs the smart-home brain, with two USB radios plugged into
-        it: one speaks Zigbee, the other Z-Wave. It knows what the thermostats are
-        doing, whether the washer and dryer have finished, how charged the car is,
-        and whether the cat's heated blanket is on. <span data-frog="(the cat outranks everyone on this network.)">(The
-        blanket has its own smart plug. The cat is the most monitored resident of
-        the house.)</span></p>
-      <p>On top of that sits <strong>home-hq</strong>, the dashboard that started
-        this whole site. The real one never leaves the house, but there's a
-        <a href="/hq-demo/">full simulation with canned data</a> you can click
-        around.</p>
-    </section>
-
-    <!-- ── the workbench ───────────────────────────────────── -->
-    <section class="lab-section">
-      <h2 data-frog="the mad science corner">the workbench</h2>
-      <p>The unfinished half of the basement is where hardware goes to be tinkered
-        with. A 3D printer that mostly prints upgrades for itself. A Raspberry Pi
-        that boots straight into a retro game console. A laser printer old enough to
-        have opinions about drivers, resurrected as a network printer by plugging it
-        into the server. And the docking spot where the laptops live between trips
-        around the house.</p>
-      <p>Every project on the dashboard started on this bench, got built on a laptop,
-        and earned its way onto the machine humming next to it. That's the whole
-        pipeline, and the commute is one flight of stairs.</p>
+      <h2 data-frog="the pond has opinions">it also does</h2>
+      <p>The same box watches the house: thermostats, the washer and dryer, the
+        car's charge, and <span data-frog="the cat's heated blanket. (the cat outranks everyone on this network.)">the
+        cat's heated blanket.</span> The cockpit for all of it is
+        <strong>home-hq</strong>; the real one never leaves the house, but there's a
+        <a href="/hq-demo/">full simulation with canned data</a>. The rest of the
+        basement is a workbench: a 3D printer, a retro-console Raspberry Pi, and
+        the spot where new projects earn their way onto the server.</p>
     </section>
   </main>
 
